@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generator - Create Stunning AI Images</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+        
+        /* Animated gradient background */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #0F172A, #1E1B4B, #312E81, #1E293B, #0F172A);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Glassmorphic card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card-hover:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Holographic effect */
+        .holographic {
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.3), 
+                rgba(59, 130, 246, 0.3), 
+                rgba(236, 72, 153, 0.3),
+                rgba(6, 182, 212, 0.3)
+            );
+            background-size: 300% 300%;
+            animation: holographicShift 8s ease infinite;
+        }
+        
+        @keyframes holographicShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Pulsing glow */
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.5); }
+        }
+        
+        /* Neon text */
+        .neon-text {
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(236, 72, 153, 0.4);
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        /* Grid lines background */
+        .grid-lines {
+            background-image: 
+                linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #8B5CF6, #3B82F6);
+            border-radius: 4px;
+        }
+        
+        /* Skeleton loading */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: skeleton 1.5s infinite;
+        }
+        
+        @keyframes skeleton {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Morphing blob */
+        .morph-blob {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: morphBlob 8s ease-in-out infinite;
+        }
+        
+        @keyframes morphBlob {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+        
+        /* 3D tilt effect */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #8B5CF6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Progress bar animation */
+        .progress-bar {
+            background: linear-gradient(90deg, #8B5CF6, #3B82F6, #06B6D4, #8B5CF6);
+            background-size: 300% 100%;
+            animation: progressGradient 2s linear infinite;
+        }
+        
+        @keyframes progressGradient {
+            0% { background-position: 100% 0; }
+            100% { background-position: 0 0; }
+        }
+        
+        /* Textarea auto-grow */
+        .auto-grow {
+            min-height: 150px;
+            resize: none;
+            overflow-y: hidden;
+        }
+        
+        /* File drop zone */
+        .drop-zone.drag-over {
+            border-color: #8B5CF6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        /* Toast animations */
+        .toast-enter {
+            animation: toastEnter 0.3s ease;
+        }
+        
+        @keyframes toastEnter {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* Modal backdrop */
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Range slider styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        }
+        
+        /* Hide scrollbar for horizontal scroll */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Header styles */
+        #appHeader .header-shell {
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.08),
+                0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        #appHeader.scrolled .header-shell {
+            background: rgba(15, 23, 42, 0.55);
+            border-color: rgba(255, 255, 255, 0.16);
+        }
+
+        .header-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.55rem 0.8rem;
+            border-radius: 0.9rem;
+            color: rgba(209, 213, 219, 1);
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.0);
+            transition: all 240ms ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .header-link:hover {
+            color: rgba(255, 255, 255, 1);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .header-link.active {
+            color: rgba(255, 255, 255, 1);
+            background: rgba(139, 92, 246, 0.18);
+            border-color: rgba(139, 92, 246, 0.35);
+            box-shadow:
+                0 0 0 1px rgba(139, 92, 246, 0.25),
+                0 0 25px rgba(59, 130, 246, 0.18);
+        }
+
+        /* Mobile menu open animation */
+        #mobileMenu {
+            transform-origin: top right;
+        }
+
+        #mobileMenu.mobile-menu-enter {
+            animation: mobileMenuEnter 180ms ease;
+        }
+
+        @keyframes mobileMenuEnter {
+            from { transform: translateY(-6px) scale(0.98); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen text-white overflow-x-hidden">
+    <!-- Particles Background -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+    
+    <!-- Grid Lines Overlay -->
+    <div class="fixed inset-0 grid-lines pointer-events-none z-0 opacity-30"></div>
+    
+    <!-- Morphing Blobs -->
+    <div class="fixed top-20 left-10 w-96 h-96 bg-purple-600/20 morph-blob blur-3xl pointer-events-none z-0"></div>
+    <div class="fixed bottom-20 right-10 w-80 h-80 bg-blue-600/20 morph-blob blur-3xl pointer-events-none z-0" style="animation-delay: -4s;"></div>
+    <div class="fixed top-1/2 left-1/2 w-64 h-64 bg-pink-600/10 morph-blob blur-3xl pointer-events-none z-0" style="animation-delay: -2s;"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10">
+        <!-- Header -->
+        <header id="appHeader" class="fixed top-0 left-0 right-0 z-40">
+            <div class="max-w-6xl mx-auto px-4 pt-4">
+                <div class="header-shell glass-card rounded-2xl px-4 md:px-6 py-3 flex items-center justify-between gap-4">
+                    <a href="#hero" onclick="scrollToSection('hero'); return false;" class="group flex items-center gap-3">
+                        <div class="relative w-10 h-10 rounded-xl holographic flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="leading-tight">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm md:text-base font-extrabold tracking-tight bg-gradient-to-r from-purple-300 via-pink-300 to-cyan-300 bg-clip-text text-transparent">AI Image Generator</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/10 border border-white/10 text-gray-200">BETA</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Desktop Nav -->
+                    <nav class="hidden md:flex items-center gap-1" aria-label="Primary">
+                        <a data-navlink href="#hero" onclick="scrollToSection('hero'); return false;" class="header-link">Home</a>
+                        <a data-navlink href="#generator" onclick="scrollToSection('generator'); return false;" class="header-link">Generator</a>
+                        <a data-navlink href="#gallerySection" onclick="scrollToSection('gallerySection'); return false;" class="header-link">Gallery</a>
+                        <a data-navlink href="#historySection" onclick="scrollToSection('historySection'); return false;" class="header-link">History</a>
+                    </nav>
+
+                    <div class="flex items-center gap-2">
+
+                        <button onclick="scrollToGenerator()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 transition-all duration-300 font-semibold">
+                            <span>Start</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Mobile Menu Button -->
+                        <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Panel -->
+                <div id="mobileMenu" class="hidden mt-3 header-shell glass-card rounded-2xl p-3">
+                    <div class="grid gap-2">
+                        <a data-navlink href="#hero" onclick="scrollToSection('hero'); return false;" class="header-link w-full">Home</a>
+                        <a data-navlink href="#generator" onclick="scrollToSection('generator'); return false;" class="header-link w-full">Generator</a>
+                        <a data-navlink href="#gallerySection" onclick="scrollToSection('gallerySection'); return false;" class="header-link w-full">Gallery</a>
+                        <a data-navlink href="#historySection" onclick="scrollToSection('historySection'); return false;" class="header-link w-full">History</a>
+                        <button onclick="scrollToGenerator(); closeMobileMenu();" class="mt-1 w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 font-semibold">Start Creating</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-4 pt-32 pb-20">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent neon-text">
+                    Create Stunning AI Images
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Unleash the power of artificial intelligence to transform your imagination into breathtaking visuals. Simply describe your vision, and watch magic unfold.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center mb-12">
+                    <span class="px-4 py-2 glass-card rounded-full text-sm text-gray-300">✨ Photorealistic</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm text-gray-300">🎨 Artistic Styles</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm text-gray-300">⚡ Fast Generation</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm text-gray-300">📸 Reference Images</span>
+                </div>
+                <button onclick="scrollToGenerator()" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-semibold text-lg hover:from-purple-500 hover:to-blue-500 transition-all duration-300 pulse-glow">
+                    Start Creating
+                </button>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 scroll-indicator cursor-pointer" onclick="scrollToGenerator()">
+                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Generator Section -->
+        <section id="generator" class="py-20 px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Main Generator Card -->
+                <div class="glass-card rounded-3xl p-6 md:p-10 mb-8">
+                    <!-- Prompt Input -->
+                    <div class="mb-8">
+                        <label class="block text-lg font-semibold mb-3 text-gray-200">
+                            <span class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                                Describe Your Vision
+                            </span>
+                        </label>
+                        <div class="relative">
+                            <textarea 
+                                id="promptInput"
+                                class="w-full auto-grow p-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none transition-all duration-300"
+                                placeholder="A majestic dragon soaring through a sunset sky, with golden scales reflecting the warm light, surrounded by floating islands covered in cherry blossoms, cinematic lighting, ultra detailed, 8k resolution..."
+                                oninput="autoGrow(this); updateCharCount()"
+                            ></textarea>
+                            <div class="flex justify-between items-center mt-2 text-sm">
+                                <span id="charCount" class="text-gray-500">0 characters</span>
+                                <button onclick="enhancePrompt()" class="flex items-center gap-1 text-purple-400 hover:text-purple-300 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                    Enhance Prompt
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reference Images Upload -->
+                    <div class="mb-8">
+                        <label class="block text-lg font-semibold mb-3 text-gray-200">
+                            <span class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                Reference Images <span class="text-sm font-normal text-gray-500">(Optional - Up to 8 images, max 30MB total)</span>
+                            </span>
+                        </label>
+                        
+                        <div 
+                            id="dropZone"
+                            class="drop-zone border-2 border-dashed border-white/20 rounded-xl p-8 text-center cursor-pointer hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300"
+                            onclick="document.getElementById('fileInput').click()"
+                            ondragover="handleDragOver(event)"
+                            ondragleave="handleDragLeave(event)"
+                            ondrop="handleDrop(event)"
+                        >
+                            <input type="file" id="fileInput" class="hidden" multiple accept="image/jpeg,image/png,image/webp" onchange="handleFileSelect(event)">
+                            <svg class="w-12 h-12 mx-auto text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <p class="text-gray-400 mb-2">Drag & drop images here, or click to browse</p>
+                            <p class="text-sm text-gray-600">JPG, PNG, WEBP supported</p>
+                        </div>
+                        
+                        <!-- Image Previews Grid -->
+                        <div id="imagePreviewGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 hidden">
+                        </div>
+                        
+                        <!-- File Size Warning -->
+                        <div id="sizeWarning" class="mt-2 text-sm text-amber-400 hidden">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <span id="sizeWarningText"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Settings Toggle -->
+                    <div class="mb-6">
+                        <button 
+                            id="settingsToggle"
+                            onclick="toggleSettings()"
+                            class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                        >
+                            <svg id="settingsChevron" class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                            <span class="font-semibold">Advanced Settings</span>
+                        </button>
+                    </div>
+
+                    <!-- Advanced Settings Panel -->
+                    <div id="settingsPanel" class="hidden mb-8 space-y-6 p-6 bg-white/5 rounded-xl">
+                        <!-- Dimensions -->
+                        <div>
+                            <label class="block text-sm font-medium mb-3 text-gray-300">Image Dimensions</label>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="setDimension('1:1', 1024, 1024)" class="dimension-btn active px-4 py-2 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-colors text-sm" data-ratio="1:1">1:1 Square</button>
+                                <button onclick="setDimension('16:9', 1536, 864)" class="dimension-btn px-4 py-2 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-colors text-sm" data-ratio="16:9">16:9 Wide</button>
+                                <button onclick="setDimension('9:16', 864, 1536)" class="dimension-btn px-4 py-2 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-colors text-sm" data-ratio="9:16">9:16 Portrait</button>
+                                <button onclick="setDimension('4:3', 1280, 960)" class="dimension-btn px-4 py-2 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-colors text-sm" data-ratio="4:3">4:3 Standard</button>
+                            </div>
+                            <p id="dimensionDisplay" class="text-xs text-gray-500 mt-2">1024 × 1024 pixels</p>
+                        </div>
+
+                        <!-- Style Presets -->
+                        <div>
+                            <label class="block text-sm font-medium mb-3 text-gray-300">Style Preset</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                <button onclick="setStyle('realistic')" class="style-btn active p-3 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-all text-sm text-center" data-style="realistic">
+                                    <span class="block text-lg mb-1">📷</span>
+                                    Realistic
+                                </button>
+                                <button onclick="setStyle('artistic')" class="style-btn p-3 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-all text-sm text-center" data-style="artistic">
+                                    <span class="block text-lg mb-1">🎨</span>
+                                    Artistic
+                                </button>
+                                <button onclick="setStyle('anime')" class="style-btn p-3 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-all text-sm text-center" data-style="anime">
+                                    <span class="block text-lg mb-1">🌸</span>
+                                    Anime
+                                </button>
+                                <button onclick="setStyle('3d-render')" class="style-btn p-3 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-all text-sm text-center" data-style="3d-render">
+                                    <span class="block text-lg mb-1">🎮</span>
+                                    3D Render
+                                </button>
+                                <button onclick="setStyle('oil-painting')" class="style-btn p-3 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-all text-sm text-center" data-style="oil-painting">
+                                    <span class="block text-lg mb-1">🖼️</span>
+                                    Oil Painting
+                                </button>
+                                <button onclick="setStyle('watercolor')" class="style-btn p-3 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-all text-sm text-center" data-style="watercolor">
+                                    <span class="block text-lg mb-1">💧</span>
+                                    Watercolor
+                                </button>
+                                <button onclick="setStyle('cyberpunk')" class="style-btn p-3 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-all text-sm text-center" data-style="cyberpunk">
+                                    <span class="block text-lg mb-1">🌆</span>
+                                    Cyberpunk
+                                </button>
+                                <button onclick="setStyle('fantasy')" class="style-btn p-3 rounded-lg bg-white/10 hover:bg-purple-500/30 transition-all text-sm text-center" data-style="fantasy">
+                                    <span class="block text-lg mb-1">🧙</span>
+                                    Fantasy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Number of Images -->
+                        <div>
+                            <label class="block text-sm font-medium mb-3 text-gray-300">
+                                Number of Images: <span id="numImagesValue" class="text-purple-400">2</span>
+                            </label>
+                            <input type="range" id="numImages" min="1" max="4" value="2" class="w-full" oninput="updateNumImages()">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>1</span><span>2</span><span>3</span><span>4</span>
+                            </div>
+                        </div>
+
+                        <!-- Guidance Scale -->
+                        <div>
+                            <label class="block text-sm font-medium mb-3 text-gray-300">
+                                Guidance Scale: <span id="guidanceValue" class="text-purple-400">7.5</span>
+                                <span class="text-xs text-gray-500 ml-2">(Higher = closer to prompt)</span>
+                            </label>
+                            <input type="range" id="guidanceScale" min="1" max="20" value="7.5" step="0.5" class="w-full" oninput="updateGuidance()">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>Creative</span><span>Balanced</span><span>Precise</span>
+                            </div>
+                        </div>
+
+                        <!-- Negative Prompt -->
+                        <div>
+                            <label class="block text-sm font-medium mb-3 text-gray-300">
+                                Negative Prompt <span class="text-gray-500">(What to avoid)</span>
+                            </label>
+                            <textarea 
+                                id="negativePrompt"
+                                class="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-600 focus:border-purple-500 focus:outline-none transition-all text-sm"
+                                rows="2"
+                                placeholder="blurry, low quality, distorted, ugly, bad anatomy..."
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button 
+                        id="generateBtn"
+                        onclick="generateImages()"
+                        class="w-full py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 rounded-xl font-bold text-lg hover:from-purple-500 hover:via-pink-500 hover:to-blue-500 transition-all duration-300 pulse-glow flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:animate-none"
+                    >
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span id="generateBtnText">Generate Images</span>
+                    </button>
+                </div>
+
+                <!-- Status Section -->
+                <div id="statusSection" class="glass-card rounded-2xl p-6 mb-8 hidden">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="spinner w-8 h-8"></div>
+                        <div>
+                            <p id="statusText" class="font-semibold text-white">Preparing your request...</p>
+                            <p id="statusSubtext" class="text-sm text-gray-400">Estimated time: 30-60 seconds</p>
+                        </div>
+                    </div>
+                    <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                        <div id="progressBar" class="progress-bar h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p id="progressText" class="text-right text-sm text-gray-500 mt-2">0%</p>
+                </div>
+
+                <!-- Generated Images Gallery -->
+                <div id="gallerySection" class="hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            Generated Images
+                        </h2>
+                        <button onclick="regenerateImages()" class="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors text-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Regenerate
+                        </button>
+                    </div>
+                    <div id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    </div>
+                </div>
+
+                <!-- History Section -->
+                <div id="historySection" class="mt-12 hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Recent Generations
+                        </h2>
+                        <button onclick="clearHistory()" class="text-sm text-gray-500 hover:text-red-400 transition-colors">Clear History</button>
+                    </div>
+                    <div id="historyGrid" class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-10 gap-2">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 px-4 border-t border-white/10">
+            <div class="max-w-6xl mx-auto text-center text-gray-500 text-sm">
+                <p>Powered by AI • Created with ❤️ • All images are generated by artificial intelligence</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <img id="lightboxImage" src="" alt="Generated Image" class="max-w-full max-h-[90vh] rounded-xl shadow-2xl">
+    </div>
+
+    <!-- Email Modal -->
+    <div id="emailModal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4">
+        <div class="glass-card rounded-2xl p-6 w-full max-w-md">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-white">Send Image via Email</h3>
+                <button onclick="closeEmailModal()" class="text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="emailForm" onsubmit="sendEmail(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2 text-gray-300">Recipient Email</label>
+                    <input 
+                        type="email" 
+                        id="recipientEmail" 
+                        required
+                        class="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none transition-all"
+                        placeholder="email@example.com"
+                    >
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2 text-gray-300">Message (Optional)</label>
+                    <textarea 
+                        id="emailMessage"
+                        class="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none transition-all"
+                        rows="3"
+                        placeholder="Check out this AI-generated image!"
+                    ></textarea>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="includePrompt" checked class="w-4 h-4 rounded border-gray-600 text-purple-600 focus:ring-purple-500">
+                        <span class="text-sm text-gray-300">Include prompt details</span>
+                    </label>
+                </div>
+                
+                <button 
+                    type="submit" 
+                    id="sendEmailBtn"
+                    class="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold hover:from-purple-500 hover:to-blue-500 transition-all flex items-center justify-center gap-2"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <span id="sendEmailBtnText">Send Email</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <script>
+        // State Management
+        const state = {
+            prompt: '',
+            negativePrompt: '',
+            referenceImages: [],
+            dimensions: { width: 1024, height: 1024, ratio: '1:1' },
+            style: 'realistic',
+            numImages: 2,
+            guidanceScale: 7.5,
+            generatedImages: [],
+            history: [],
+            isGenerating: false,
+            currentEmailImage: null
+        };
+
+        // Webhook URLs for n8n integration
+        const GENERATE_WEBHOOK = 'https://himel15003.app.n8n.cloud/webhook-test/ai-image-generator';
+        const EMAIL_WEBHOOK = 'https://himel15003.app.n8n.cloud/webhook-test/ai-image-generator';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            loadHistory();
+            updateHistoryDisplay();
+            setHeaderScrolled(window.scrollY > 10);
+            updateActiveNavLink();
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#8B5CF6', '#3B82F6', '#EC4899', '#06B6D4'];
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + 100 + '%';
+                particle.style.width = Math.random() * 10 + 5 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Scroll helpers
+        function scrollToGenerator() {
+            scrollToSection('generator');
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            // Use a slight offset feel by relying on padding top in hero; for other sections
+            // we keep it simple and smooth.
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => updateActiveNavLink(), 250);
+        }
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const btn = document.getElementById('mobileMenuBtn');
+            const isHidden = menu.classList.contains('hidden');
+
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                menu.classList.add('mobile-menu-enter');
+                btn.setAttribute('aria-expanded', 'true');
+                setTimeout(() => menu.classList.remove('mobile-menu-enter'), 220);
+            } else {
+                closeMobileMenu();
+            }
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const btn = document.getElementById('mobileMenuBtn');
+            if (!menu) return;
+            menu.classList.add('hidden');
+            btn?.setAttribute('aria-expanded', 'false');
+        }
+
+        function setHeaderScrolled(scrolled) {
+            const header = document.getElementById('appHeader');
+            if (!header) return;
+            header.classList.toggle('scrolled', scrolled);
+        }
+
+        function updateActiveNavLink() {
+            const links = Array.from(document.querySelectorAll('[data-navlink]'));
+            if (links.length === 0) return;
+
+            // Map each link to a section id
+            const sections = links
+                .map(link => {
+                    const href = link.getAttribute('href') || '';
+                    const id = href.startsWith('#') ? href.slice(1) : null;
+                    const el = id ? document.getElementById(id) : null;
+                    return { link, id, el };
+                })
+                .filter(x => x.el);
+
+            if (sections.length === 0) return;
+
+            const headerOffset = 110; // approximate fixed header + spacing
+            const y = window.scrollY + headerOffset;
+
+            let activeId = sections[0].id;
+            for (const s of sections) {
+                const top = s.el.getBoundingClientRect().top + window.scrollY;
+                if (top <= y) activeId = s.id;
+            }
+
+            links.forEach(l => l.classList.remove('active'));
+            links
+                .filter(l => (l.getAttribute('href') || '') === `#${activeId}`)
+                .forEach(l => l.classList.add('active'));
+        }
+
+        // Update header/nav state on scroll
+        window.addEventListener('scroll', () => {
+            setHeaderScrolled(window.scrollY > 10);
+            updateActiveNavLink();
+        }, { passive: true });
+
+        window.addEventListener('resize', () => {
+            // Close mobile menu when switching to desktop
+            if (window.innerWidth >= 768) closeMobileMenu();
+        });
+
+        // Auto-grow textarea
+        function autoGrow(element) {
+            element.style.height = 'auto';
+            element.style.height = (element.scrollHeight) + 'px';
+        }
+
+        // Update character count
+        function updateCharCount() {
+            const textarea = document.getElementById('promptInput');
+            const count = textarea.value.length;
+            document.getElementById('charCount').textContent = `${count.toLocaleString()} characters`;
+            state.prompt = textarea.value;
+        }
+
+        // Enhance prompt (simulated)
+        function enhancePrompt() {
+            const textarea = document.getElementById('promptInput');
+            const currentPrompt = textarea.value.trim();
+            
+            if (!currentPrompt) {
+                showToast('Please enter a prompt first', 'warning');
+                return;
+            }
+
+            const enhancements = [
+                ', highly detailed, professional quality',
+                ', cinematic lighting, 8k resolution, masterpiece',
+                ', award-winning photography, ultra realistic',
+                ', trending on artstation, beautiful composition'
+            ];
+            
+            const enhancement = enhancements[Math.floor(Math.random() * enhancements.length)];
+            textarea.value = currentPrompt + enhancement;
+            autoGrow(textarea);
+            updateCharCount();
+            showToast('Prompt enhanced!', 'success');
+        }
+
+        // File handling
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            const files = Array.from(e.dataTransfer.files).filter(f => 
+                ['image/jpeg', 'image/png', 'image/webp'].includes(f.type)
+            );
+            addFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            addFiles(files);
+            e.target.value = '';
+        }
+
+        function addFiles(files) {
+            const maxFiles = 8;
+            const maxTotalSize = 30 * 1024 * 1024; // 30MB
+            
+            let currentSize = state.referenceImages.reduce((sum, img) => sum + img.size, 0);
+            
+            for (const file of files) {
+                if (state.referenceImages.length >= maxFiles) {
+                    showToast(`Maximum ${maxFiles} images allowed`, 'warning');
+                    break;
+                }
+                
+                if (currentSize + file.size > maxTotalSize) {
+                    showToast('Total file size exceeds 30MB limit', 'error');
+                    break;
+                }
+                
+                currentSize += file.size;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    state.referenceImages.push({
+                        name: file.name,
+                        size: file.size,
+                        data: e.target.result
+                    });
+                    updateImagePreviews();
+                    updateSizeWarning();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateImagePreviews() {
+            const grid = document.getElementById('imagePreviewGrid');
+            
+            if (state.referenceImages.length === 0) {
+                grid.classList.add('hidden');
+                return;
+            }
+            
+            grid.classList.remove('hidden');
+            grid.innerHTML = state.referenceImages.map((img, index) => `
+                <div class="relative group glass-card rounded-lg overflow-hidden">
+                    <img src="${img.data}" alt="${img.name}" class="w-full aspect-square object-cover">
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button onclick="removeImage(${index})" class="p-2 bg-red-500/80 rounded-full hover:bg-red-500 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+                        <p class="text-xs truncate">${img.name}</p>
+                        <p class="text-xs text-gray-400">${formatFileSize(img.size)}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeImage(index) {
+            state.referenceImages.splice(index, 1);
+            updateImagePreviews();
+            updateSizeWarning();
+        }
+
+        function updateSizeWarning() {
+            const totalSize = state.referenceImages.reduce((sum, img) => sum + img.size, 0);
+            const maxSize = 30 * 1024 * 1024;
+            const warning = document.getElementById('sizeWarning');
+            const text = document.getElementById('sizeWarningText');
+            
+            if (totalSize > maxSize * 0.8) {
+                warning.classList.remove('hidden');
+                text.textContent = `Total size: ${formatFileSize(totalSize)} of ${formatFileSize(maxSize)}`;
+            } else {
+                warning.classList.add('hidden');
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // Settings toggle
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            const chevron = document.getElementById('settingsChevron');
+            
+            panel.classList.toggle('hidden');
+            chevron.style.transform = panel.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        // Dimension selection
+        function setDimension(ratio, width, height) {
+            state.dimensions = { ratio, width, height };
+            
+            document.querySelectorAll('.dimension-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-purple-500/30');
+                btn.classList.add('bg-white/10');
+            });
+            
+            document.querySelector(`.dimension-btn[data-ratio="${ratio}"]`).classList.remove('bg-white/10');
+            document.querySelector(`.dimension-btn[data-ratio="${ratio}"]`).classList.add('active', 'bg-purple-500/30');
+            
+            document.getElementById('dimensionDisplay').textContent = `${width} × ${height} pixels`;
+        }
+
+        // Style selection
+        function setStyle(style) {
+            state.style = style;
+            
+            document.querySelectorAll('.style-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-purple-500/30');
+                btn.classList.add('bg-white/10');
+            });
+            
+            document.querySelector(`.style-btn[data-style="${style}"]`).classList.remove('bg-white/10');
+            document.querySelector(`.style-btn[data-style="${style}"]`).classList.add('active', 'bg-purple-500/30');
+        }
+
+        // Update number of images
+        function updateNumImages() {
+            const value = document.getElementById('numImages').value;
+            state.numImages = parseInt(value);
+            document.getElementById('numImagesValue').textContent = value;
+        }
+
+        // Update guidance scale
+        function updateGuidance() {
+            const value = document.getElementById('guidanceScale').value;
+            state.guidanceScale = parseFloat(value);
+            document.getElementById('guidanceValue').textContent = value;
+        }
+
+        // Generate images
+        // NOTE: n8n may return images as URLs OR as base64 strings/objects (sometimes nested).
+        // We normalize many possible response shapes so images reliably show up in the app.
+        async function generateImages() {
+            const prompt = document.getElementById('promptInput').value.trim();
+
+            if (!prompt) {
+                showToast('Please enter a prompt', 'warning');
+                return;
+            }
+
+            state.isGenerating = true;
+            state.prompt = prompt; // keep state in sync (used by history)
+            state.negativePrompt = document.getElementById('negativePrompt').value.trim();
+
+            const btn = document.getElementById('generateBtn');
+            const btnText = document.getElementById('generateBtnText');
+            const statusSection = document.getElementById('statusSection');
+
+            btn.disabled = true;
+            btnText.textContent = 'Generating...';
+            statusSection.classList.remove('hidden');
+
+            // Simulate progress
+            simulateProgress();
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 120000); // 120s
+
+            try {
+                // Strip any data-URL prefix from reference images before sending to n8n
+                const cleanBase64Images = state.referenceImages.map(img => stripDataUrlPrefix(img.data));
+
+                const payload = {
+                    prompt: prompt,
+                    negative_prompt: state.negativePrompt,
+                    reference_images: cleanBase64Images,
+                    dimensions: { width: state.dimensions.width, height: state.dimensions.height },
+                    style: state.style,
+                    num_images: state.numImages,
+                    guidance_scale: state.guidanceScale,
+                    callback_id: generateUUID()
+                };
+
+                const response = await fetch(GENERATE_WEBHOOK, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+
+                const { data, rawText } = await readResponseFlexible(response);
+
+                if (!response.ok) {
+                    const serverMsg = (data && (data.message || data.error)) || rawText || `HTTP ${response.status}`;
+                    throw new Error(serverMsg);
+                }
+
+                const normalized = normalizeN8nGenerateResponse(data, state.numImages);
+
+                if (!normalized || normalized.images.length === 0) {
+                    // Don’t silently show random placeholders when webhook is returning something unexpected.
+                    console.warn('Unexpected webhook response shape:', data);
+                    throw new Error('Webhook response did not include any images.');
+                }
+
+                const promptUsed = normalized.prompt_used || prompt;
+
+                state.generatedImages = normalized.images.map(img => ({
+                    url: img.url,
+                    thumbnail: img.thumbnail || img.url,
+                    prompt: promptUsed,
+                    timestamp: new Date().toISOString(),
+                    parameters: {
+                        ...state.dimensions,
+                        style: state.style,
+                        guidance: state.guidanceScale,
+                        numImages: state.numImages
+                    }
+                }));
+
+                displayGeneratedImages();
+                saveToHistory();
+                showToast('Images generated successfully!', 'success');
+            } catch (error) {
+                console.error('Generation error:', error);
+
+                if (error?.name === 'AbortError') {
+                    showToast('Request timed out after 120s. Please try again.', 'error');
+                } else if ((String(error?.message || '')).toLowerCase().includes('failed to fetch')) {
+                    // This commonly happens when CORS is not enabled on the webhook response.
+                    showToast('Could not read webhook response (possible CORS issue). Enable CORS on your n8n webhook response.', 'error');
+                } else {
+                    showToast(`Failed to generate images: ${error?.message || 'Unknown error'}`, 'error');
+                }
+            } finally {
+                clearTimeout(timeoutId);
+                state.isGenerating = false;
+                btn.disabled = false;
+                btnText.textContent = 'Generate Images';
+                statusSection.classList.add('hidden');
+                resetProgress();
+            }
+        }
+
+        // --- Webhook response helpers ---
+        function stripDataUrlPrefix(value) {
+            if (!value || typeof value !== 'string') return value;
+            // Handles: data:image/png;base64,AAAA... or any data:*;base64, prefix
+            if (value.startsWith('data:') && value.includes(',')) return value.split(',')[1];
+            // Sometimes already raw base64
+            return value;
+        }
+
+        async function readResponseFlexible(response) {
+            // n8n can respond with JSON, but sometimes content-type is missing/misleading.
+            const rawText = await response.text();
+            let data = null;
+            if (rawText) {
+                try {
+                    data = JSON.parse(rawText);
+                } catch (e) {
+                    data = { raw: rawText };
+                }
+            }
+            return { data, rawText };
+        }
+
+        function toDataUrlFromBase64Maybe(value) {
+            if (!value || typeof value !== 'string') return null;
+            if (value.startsWith('http://') || value.startsWith('https://') || value.startsWith('blob:')) return value;
+            if (value.startsWith('data:')) return value; // already data-url
+
+            // Treat as raw base64
+            const clean = stripDataUrlPrefix(value);
+            return `data:image/png;base64,${clean}`;
+        }
+
+        function normalizeN8nGenerateResponse(input, fallbackCount = 1) {
+            // n8n can respond with:
+            // 1) a single object: { status, images:[...] }
+            // 2) an array of items: [ {json:{...}}, {json:{...}} ] (very common)
+            // 3) nested wrappers: { body:{...} } / { data:{...} } etc.
+            // We aggregate images across *all* items so multi-image generations render correctly.
+
+            const items = Array.isArray(input) ? input : [input];
+
+            const allImages = [];
+            let status = 'unknown';
+            let promptUsed = null;
+            let generationTime = null;
+
+            const pushFromImagesField = (imagesField) => {
+                let rawImages = imagesField;
+
+                // If workflow returns a single string
+                if (typeof rawImages === 'string') rawImages = [rawImages];
+
+                // If workflow returns an object keyed by index, convert to array
+                if (rawImages && typeof rawImages === 'object' && !Array.isArray(rawImages)) {
+                    rawImages = Object.values(rawImages);
+                }
+
+                if (!Array.isArray(rawImages)) return;
+
+                rawImages.forEach((img) => {
+                    // img can be string (url/base64) or object
+                    if (typeof img === 'string') {
+                        const url = toDataUrlFromBase64Maybe(img);
+                        if (url) allImages.push({ url, thumbnail: url });
+                        return;
+                    }
+
+                    if (img && typeof img === 'object') {
+                        const urlCandidate = img.url || img.image_url || img.src;
+                        const thumbCandidate = img.thumbnail || img.thumb || img.thumbnail_url;
+
+                        const base64Candidate = img.base64 || img.b64 || img.image_base64 || img.data || img.image;
+                        const base64ThumbCandidate = img.thumbnail_base64 || img.thumb_base64;
+
+                        // Some n8n nodes return binary payloads; try a gentle fallback
+                        const binaryCandidate = img?.binary?.data?.data || img?.binary?.image?.data;
+
+                        const url = urlCandidate
+                            ? toDataUrlFromBase64Maybe(urlCandidate)
+                            : (base64Candidate
+                                ? toDataUrlFromBase64Maybe(base64Candidate)
+                                : (binaryCandidate ? toDataUrlFromBase64Maybe(binaryCandidate) : null));
+
+                        const thumbnail = thumbCandidate
+                            ? toDataUrlFromBase64Maybe(thumbCandidate)
+                            : (base64ThumbCandidate
+                                ? toDataUrlFromBase64Maybe(base64ThumbCandidate)
+                                : url);
+
+                        if (url) allImages.push({ url, thumbnail: thumbnail || url });
+                    }
+                });
+            };
+
+            const findAndExtract = (obj) => {
+                if (!obj || typeof obj !== 'object') return false;
+
+                // Multi-image field variants
+                const imagesField = obj.images || obj.image_urls || obj.urls || obj.generated_images;
+                if (imagesField) {
+                    pushFromImagesField(imagesField);
+                    return true;
+                }
+
+                // Single-image field variants
+                const single = obj.image || obj.image_base64 || obj.base64 || obj.b64 || obj.imageData;
+                if (single) {
+                    pushFromImagesField([single]);
+                    return true;
+                }
+
+                return false;
+            };
+
+            for (const item of items) {
+                let data = item;
+
+                // n8n item wrapper
+                if (data && typeof data === 'object' && data.json && typeof data.json === 'object') data = data.json;
+
+                const candidates = [
+                    data,
+                    data?.body,
+                    data?.data,
+                    data?.result,
+                    data?.output,
+                    data?.response
+                ].filter(Boolean);
+
+                for (const c of candidates) {
+                    const extracted = findAndExtract(c);
+
+                    if (c?.status && status === 'unknown') status = c.status;
+                    if (c?.prompt_used) promptUsed = c.prompt_used;
+                    if (typeof c?.generation_time !== 'undefined') generationTime = c.generation_time;
+
+                    // Keep scanning candidates because some workflows put images in multiple places
+                    // but extracting once is usually enough; we don't early-return to allow aggregation.
+                    if (extracted) {
+                        // continue
+                    }
+                }
+
+                // Fallback: sometimes status/prompt are on the top-level item
+                if (data?.status && status === 'unknown') status = data.status;
+                if (data?.prompt_used) promptUsed = data.prompt_used;
+                if (typeof data?.generation_time !== 'undefined') generationTime = data.generation_time;
+            }
+
+            // Default status if we did receive images
+            if (status === 'unknown' && allImages.length > 0) status = 'success';
+
+            // De-dupe identical URLs (can happen when n8n returns both url and thumbnail-only entries)
+            const seen = new Set();
+            const images = allImages.filter(img => {
+                if (!img?.url) return false;
+                if (seen.has(img.url)) return false;
+                seen.add(img.url);
+                return true;
+            });
+
+            return {
+                status,
+                images,
+                generation_time: generationTime,
+                prompt_used: promptUsed
+            };
+        }
+
+        function simulateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const statusText = document.getElementById('statusText');
+            const statusSubtext = document.getElementById('statusSubtext');
+            
+            const stages = [
+                { progress: 10, text: 'Preparing your request...', subtext: 'Validating parameters' },
+                { progress: 25, text: 'Sending to AI engine...', subtext: 'Connecting to server' },
+                { progress: 50, text: 'Generating images...', subtext: 'This may take 30-60 seconds' },
+                { progress: 75, text: 'Processing results...', subtext: 'Almost there!' },
+                { progress: 90, text: 'Finalizing results...', subtext: 'Preparing download' }
+            ];
+            
+            let currentStage = 0;
+            const interval = setInterval(() => {
+                if (currentStage >= stages.length || !state.isGenerating) {
+                    clearInterval(interval);
+                    return;
+                }
+                
+                const stage = stages[currentStage];
+                progressBar.style.width = stage.progress + '%';
+                progressText.textContent = stage.progress + '%';
+                statusText.textContent = stage.text;
+                statusSubtext.textContent = stage.subtext;
+                currentStage++;
+            }, 600);
+        }
+
+        function resetProgress() {
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('progressText').textContent = '0%';
+        }
+
+        function displayGeneratedImages() {
+            const gallery = document.getElementById('gallerySection');
+            const grid = document.getElementById('galleryGrid');
+            
+            gallery.classList.remove('hidden');
+            
+            grid.innerHTML = state.generatedImages.map((img, index) => `
+                <div class="glass-card glass-card-hover rounded-xl overflow-hidden tilt-card group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="relative aspect-square">
+                        <div class="skeleton absolute inset-0"></div>
+                        <img src="${img.url}" alt="Generated Image ${index + 1}" class="w-full h-full object-cover relative z-10" loading="lazy" onload="this.previousElementSibling.style.display='none'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20 flex flex-col justify-end p-4">
+                            <div class="flex gap-2 mb-2">
+                                <button onclick="openLightbox('${img.url}')" class="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors" title="Fullscreen">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                                    </svg>
+                                </button>
+                                <button onclick="downloadImage('${img.url}', ${index})" class="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors" title="Download">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                    </svg>
+                                </button>
+                                <button onclick="openEmailModal(${index})" class="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors" title="Email">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-gray-500 mb-2">${formatDate(img.timestamp)}</p>
+                        <p class="text-sm text-gray-300 line-clamp-2 cursor-pointer hover:text-white transition-colors" onclick="this.classList.toggle('line-clamp-2')">${img.prompt}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            gallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function handleTilt(e, element) {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        }
+
+        function resetTilt(element) {
+            element.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        }
+
+        // Lightbox
+        function openLightbox(url) {
+            const lightbox = document.getElementById('lightbox');
+            const image = document.getElementById('lightboxImage');
+            image.src = url;
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Download
+        async function downloadImage(url, index) {
+            try {
+                showToast('Preparing download...', 'info');
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const downloadUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = `ai-generated-${Date.now()}-${index + 1}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(downloadUrl);
+                showToast('Image downloaded successfully!', 'success');
+            } catch (error) {
+                console.error('Download error:', error);
+                showToast('Download failed. Please try again.', 'error');
+            }
+        }
+
+        // Email modal
+        function openEmailModal(index) {
+            state.currentEmailImage = state.generatedImages[index];
+            document.getElementById('emailModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEmailModal() {
+            document.getElementById('emailModal').classList.add('hidden');
+            document.body.style.overflow = '';
+            document.getElementById('emailForm').reset();
+        }
+
+        async function sendEmail(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('sendEmailBtn');
+            const btnText = document.getElementById('sendEmailBtnText');
+            
+            btn.disabled = true;
+            btnText.textContent = 'Sending...';
+            
+            try {
+                const payload = {
+                    recipient_email: document.getElementById('recipientEmail').value,
+                    image_url: state.currentEmailImage.url,
+                    prompt: document.getElementById('includePrompt').checked ? state.currentEmailImage.prompt : '',
+                    message: document.getElementById('emailMessage').value,
+                    parameters: state.currentEmailImage.parameters
+                };
+
+                // Send email via n8n webhook
+                const response = await fetch(EMAIL_WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'send_email',
+                        ...payload
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Email send failed with status: ${response.status}`);
+                }
+                
+                showToast('Email sent successfully!', 'success');
+                closeEmailModal();
+            } catch (error) {
+                console.error('Email error:', error);
+                showToast('Failed to send email. Please try again.', 'error');
+            } finally {
+                btn.disabled = false;
+                btnText.textContent = 'Send Email';
+            }
+        }
+
+        // Regenerate
+        function regenerateImages() {
+            generateImages();
+        }
+
+        // History
+        function saveToHistory() {
+            const historyItem = {
+                id: generateUUID(),
+                thumbnail: state.generatedImages[0]?.thumbnail || state.generatedImages[0]?.url,
+                prompt: state.prompt,
+                settings: { ...state.dimensions, style: state.style, numImages: state.numImages, guidance: state.guidanceScale },
+                timestamp: new Date().toISOString()
+            };
+            
+            state.history.unshift(historyItem);
+            if (state.history.length > 20) state.history.pop();
+            
+            try {
+                localStorage.setItem('imageGenHistory', JSON.stringify(state.history));
+            } catch (e) {
+                console.warn('Could not save to localStorage');
+            }
+            
+            updateHistoryDisplay();
+        }
+
+        function loadHistory() {
+            try {
+                const saved = localStorage.getItem('imageGenHistory');
+                if (saved) {
+                    state.history = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.warn('Could not load from localStorage');
+            }
+        }
+
+        function updateHistoryDisplay() {
+            const section = document.getElementById('historySection');
+            const grid = document.getElementById('historyGrid');
+            
+            if (state.history.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+            
+            section.classList.remove('hidden');
+            grid.innerHTML = state.history.map(item => `
+                <div onclick="restoreFromHistory('${item.id}')" class="cursor-pointer group">
+                    <div class="aspect-square rounded-lg overflow-hidden glass-card glass-card-hover">
+                        <img src="${item.thumbnail}" alt="History" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function restoreFromHistory(id) {
+            const item = state.history.find(h => h.id === id);
+            if (!item) return;
+            
+            document.getElementById('promptInput').value = item.prompt;
+            autoGrow(document.getElementById('promptInput'));
+            updateCharCount();
+            
+            if (item.settings) {
+                setDimension(item.settings.ratio, item.settings.width, item.settings.height);
+                setStyle(item.settings.style);
+                document.getElementById('numImages').value = item.settings.numImages;
+                document.getElementById('guidanceScale').value = item.settings.guidance;
+                updateNumImages();
+                updateGuidance();
+            }
+            
+            showToast('Settings restored from history', 'success');
+            scrollToGenerator();
+        }
+
+        function clearHistory() {
+            if (confirm('Clear all history?')) {
+                state.history = [];
+                localStorage.removeItem('imageGenHistory');
+                updateHistoryDisplay();
+                showToast('History cleared', 'success');
+            }
+        }
+
+        // Toast notifications
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-green-500/90',
+                error: 'bg-red-500/90',
+                warning: 'bg-amber-500/90',
+                info: 'bg-blue-500/90'
+            };
+            
+            const icons = {
+                success: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>',
+                error: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>',
+                warning: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>',
+                info: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'
+            };
+            
+            toast.className = `${colors[type]} backdrop-blur-sm px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 toast-enter`;
+            toast.innerHTML = `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">${icons[type]}</svg>
+                <span class="text-sm font-medium">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Utility functions
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function formatDate(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeEmailModal();
+            }
+        });
+
+        // Close modals on backdrop click
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
+
+        document.getElementById('emailModal').addEventListener('click', (e) => {
+            if (e.target.id === 'emailModal') closeEmailModal();
+        });
+    </script>
+</body>
+</html>
