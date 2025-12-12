@@ -7,124 +7,105 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Inter', sans-serif; }
+        * { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* GPU acceleration hints */
+        .gpu-accelerate {
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
         .font-mono { font-family: 'Fira Code', monospace; }
         
-        /* Animated gradient background */
+        /* Static gradient background - no animation for performance */
         .gradient-bg {
-            background: linear-gradient(-45deg, #0F172A, #1E1B4B, #312E81, #1E293B, #0F172A);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #0F172A 100%);
         }
         
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* Glassmorphic card */
+        /* Glassmorphic card - reduced blur for performance */
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateZ(0);
+        }
+        
+        .glass-card-hover {
+            transition: background 0.15s ease, border-color 0.15s ease;
         }
         
         .glass-card-hover:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
         }
         
-        /* Holographic effect */
+        /* Simplified holographic effect - static gradient */
         .holographic {
             background: linear-gradient(135deg, 
-                rgba(139, 92, 246, 0.3), 
-                rgba(59, 130, 246, 0.3), 
-                rgba(236, 72, 153, 0.3),
-                rgba(6, 182, 212, 0.3)
+                rgba(139, 92, 246, 0.4), 
+                rgba(59, 130, 246, 0.4), 
+                rgba(236, 72, 153, 0.3)
             );
-            background-size: 300% 300%;
-            animation: holographicShift 8s ease infinite;
         }
         
-        @keyframes holographicShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        /* Floating particles */
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 20s infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(50px) rotate(360deg); opacity: 0; }
-        }
-        
-        /* Pulsing glow */
+        /* Simplified glow - no animation */
         .pulse-glow {
-            animation: pulseGlow 2s ease-in-out infinite;
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.6), 0 0 50px rgba(59, 130, 246, 0.3);
         }
         
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.5); }
+        .pulse-glow:hover {
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.8), 0 0 70px rgba(59, 130, 246, 0.4);
         }
         
-        /* Neon text */
+        /* Simplified neon text */
         .neon-text {
-            text-shadow: 0 0 10px rgba(139, 92, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(236, 72, 153, 0.4);
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3);
         }
         
-        /* Scroll indicator */
+        /* Scroll indicator - simplified */
         .scroll-indicator {
-            animation: bounce 2s infinite;
+            animation: bounce 2.5s ease-in-out infinite;
         }
         
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
         
-        /* Grid lines background */
+        /* Static grid lines - no animation */
         .grid-lines {
             background-image: 
-                linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-        }
-        
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
+                linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
         }
         
         /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
         }
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #8B5CF6, #3B82F6);
-            border-radius: 4px;
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 3px;
         }
         
-        /* Skeleton loading */
+        /* Skeleton loading - optimized */
         .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 100%);
             background-size: 200% 100%;
-            animation: skeleton 1.5s infinite;
+            animation: skeleton 1.2s ease-in-out infinite;
         }
         
         @keyframes skeleton {
@@ -132,21 +113,19 @@
             100% { background-position: -200% 0; }
         }
         
-        /* Morphing blob */
+        /* Static decorative blob - no animation */
         .morph-blob {
             border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            animation: morphBlob 8s ease-in-out infinite;
         }
         
-        @keyframes morphBlob {
-            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-        }
-        
-        /* 3D tilt effect */
+        /* Simplified card effect */
         .tilt-card {
-            transform-style: preserve-3d;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .tilt-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
         
         /* Spinner */
@@ -154,23 +133,16 @@
             border: 3px solid rgba(255, 255, 255, 0.1);
             border-top-color: #8B5CF6;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
         
-        /* Progress bar animation */
+        /* Progress bar - simplified */
         .progress-bar {
-            background: linear-gradient(90deg, #8B5CF6, #3B82F6, #06B6D4, #8B5CF6);
-            background-size: 300% 100%;
-            animation: progressGradient 2s linear infinite;
-        }
-        
-        @keyframes progressGradient {
-            0% { background-position: 100% 0; }
-            100% { background-position: 0 0; }
+            background: linear-gradient(90deg, #8B5CF6, #3B82F6, #06B6D4);
         }
         
         /* Textarea auto-grow */
@@ -181,14 +153,18 @@
         }
         
         /* File drop zone */
+        .drop-zone {
+            transition: border-color 0.15s ease, background 0.15s ease;
+        }
+        
         .drop-zone.drag-over {
             border-color: #8B5CF6;
             background: rgba(139, 92, 246, 0.1);
         }
         
-        /* Toast animations */
+        /* Toast animations - faster */
         .toast-enter {
-            animation: toastEnter 0.3s ease;
+            animation: toastEnter 0.2s ease-out;
         }
         
         @keyframes toastEnter {
@@ -196,10 +172,10 @@
             to { transform: translateX(0); opacity: 1; }
         }
         
-        /* Modal backdrop */
+        /* Modal backdrop - reduced blur */
         .modal-backdrop {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
         }
         
         /* Range slider styling */
@@ -207,17 +183,16 @@
             -webkit-appearance: none;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            height: 8px;
+            height: 6px;
         }
         
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             background: linear-gradient(135deg, #8B5CF6, #3B82F6);
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
         }
         
         /* Hide scrollbar for horizontal scroll */
@@ -230,72 +205,77 @@
         }
 
         /* Header styles */
+        #appHeader {
+            transform: translateZ(0);
+        }
+        
         #appHeader .header-shell {
-            box-shadow:
-                0 0 0 1px rgba(255, 255, 255, 0.08),
-                0 20px 60px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: background 0.15s ease, border-color 0.15s ease;
         }
 
         #appHeader.scrolled .header-shell {
-            background: rgba(15, 23, 42, 0.55);
-            border-color: rgba(255, 255, 255, 0.16);
+            background: rgba(15, 23, 42, 0.85);
+            border-color: rgba(255, 255, 255, 0.12);
         }
 
         .header-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.55rem 0.8rem;
-            border-radius: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.75rem;
             color: rgba(209, 213, 219, 1);
             border: 1px solid transparent;
-            background: rgba(255, 255, 255, 0.0);
-            transition: all 240ms ease;
+            background: transparent;
+            transition: all 0.15s ease;
             font-weight: 600;
             font-size: 0.9rem;
         }
 
         .header-link:hover {
             color: rgba(255, 255, 255, 1);
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .header-link.active {
             color: rgba(255, 255, 255, 1);
-            background: rgba(139, 92, 246, 0.18);
-            border-color: rgba(139, 92, 246, 0.35);
-            box-shadow:
-                0 0 0 1px rgba(139, 92, 246, 0.25),
-                0 0 25px rgba(59, 130, 246, 0.18);
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.4);
         }
 
-        /* Mobile menu open animation */
+        /* Mobile menu */
         #mobileMenu {
             transform-origin: top right;
         }
 
         #mobileMenu.mobile-menu-enter {
-            animation: mobileMenuEnter 180ms ease;
+            animation: mobileMenuEnter 0.15s ease-out;
         }
 
         @keyframes mobileMenuEnter {
-            from { transform: translateY(-6px) scale(0.98); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
+            from { transform: translateY(-8px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Fast transitions for interactive elements */
+        button, a, input, textarea {
+            transition: all 0.15s ease;
+        }
+        
+        /* Optimize images */
+        img {
+            content-visibility: auto;
         }
     </style>
 </head>
 <body class="gradient-bg min-h-screen text-white overflow-x-hidden">
-    <!-- Particles Background -->
-    <div id="particles" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
-    
     <!-- Grid Lines Overlay -->
-    <div class="fixed inset-0 grid-lines pointer-events-none z-0 opacity-30"></div>
+    <div class="fixed inset-0 grid-lines pointer-events-none z-0 opacity-20"></div>
     
-    <!-- Morphing Blobs -->
-    <div class="fixed top-20 left-10 w-96 h-96 bg-purple-600/20 morph-blob blur-3xl pointer-events-none z-0"></div>
-    <div class="fixed bottom-20 right-10 w-80 h-80 bg-blue-600/20 morph-blob blur-3xl pointer-events-none z-0" style="animation-delay: -4s;"></div>
-    <div class="fixed top-1/2 left-1/2 w-64 h-64 bg-pink-600/10 morph-blob blur-3xl pointer-events-none z-0" style="animation-delay: -2s;"></div>
+    <!-- Static Decorative Blobs - reduced blur for performance -->
+    <div class="fixed top-20 left-10 w-80 h-80 bg-purple-600/15 morph-blob blur-2xl pointer-events-none z-0"></div>
+    <div class="fixed bottom-20 right-10 w-72 h-72 bg-blue-600/15 morph-blob blur-2xl pointer-events-none z-0"></div>
 
     <!-- Main Content -->
     <div class="relative z-10">
@@ -727,30 +707,22 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
             loadHistory();
             updateHistoryDisplay();
             setHeaderScrolled(window.scrollY > 10);
             updateActiveNavLink();
         });
 
-        // Create floating particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const colors = ['#8B5CF6', '#3B82F6', '#EC4899', '#06B6D4'];
-            
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + 100 + '%';
-                particle.style.width = Math.random() * 10 + 5 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
-                container.appendChild(particle);
-            }
+        // Throttle utility for scroll performance
+        function throttle(func, limit) {
+            let inThrottle;
+            return function(...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
         }
 
         // Scroll helpers
@@ -828,11 +800,11 @@
                 .forEach(l => l.classList.add('active'));
         }
 
-        // Update header/nav state on scroll
-        window.addEventListener('scroll', () => {
+        // Update header/nav state on scroll - throttled for performance
+        window.addEventListener('scroll', throttle(() => {
             setHeaderScrolled(window.scrollY > 10);
             updateActiveNavLink();
-        }, { passive: true });
+        }, 100), { passive: true });
 
         window.addEventListener('resize', () => {
             // Close mobile menu when switching to desktop
@@ -1357,7 +1329,7 @@
             gallery.classList.remove('hidden');
             
             grid.innerHTML = state.generatedImages.map((img, index) => `
-                <div class="glass-card glass-card-hover rounded-xl overflow-hidden tilt-card group" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <div class="glass-card glass-card-hover rounded-xl overflow-hidden tilt-card group">
                     <div class="relative aspect-square">
                         <div class="skeleton absolute inset-0"></div>
                         <img src="${img.url}" alt="Generated Image ${index + 1}" class="w-full h-full object-cover relative z-10" loading="lazy" onload="this.previousElementSibling.style.display='none'">
@@ -1391,21 +1363,7 @@
             gallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function handleTilt(e, element) {
-            const rect = element.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 10;
-            const rotateY = (centerX - x) / 10;
-            
-            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        }
-
-        function resetTilt(element) {
-            element.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-        }
+        // Simplified - tilt effect now handled by CSS hover
 
         // Lightbox
         function openLightbox(url) {
