@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Image Generator - Create Stunning AI Images</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * { 
-            font-family: 'Inter', sans-serif; 
+            font-family: 'DM Sans', sans-serif; 
             -webkit-font-smoothing: antialiased;
+        }
+        
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
         }
         
         /* GPU acceleration hints */
@@ -23,20 +27,152 @@
             scroll-behavior: smooth;
         }
         
-        .font-mono { font-family: 'Fira Code', monospace; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
         
-        /* Static gradient background - no animation for performance */
-        .gradient-bg {
-            background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #0F172A 100%);
+        /* Primary warm beige color: #ECD5BC */
+        :root {
+            --primary: #ECD5BC;
+            --primary-rgb: 236, 213, 188;
+            --primary-dark: #D4BC9F;
+            --primary-darker: #BBA384;
+            --bg-dark: #0a0a0a;
+            --bg-card: #111111;
+            --bg-main: #0a0a0a;
+            --bg-surface: rgba(236, 213, 188, 0.03);
+            --bg-surface-hover: rgba(236, 213, 188, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+            --border-color: rgba(236, 213, 188, 0.15);
+            --border-hover: rgba(236, 213, 188, 0.3);
+            --modal-bg: rgba(0, 0, 0, 0.85);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --blob-opacity: 0.08;
         }
         
-        /* Glassmorphic card - reduced blur for performance */
+        /* Light theme */
+        [data-theme="light"] {
+            --bg-main: #faf8f5;
+            --bg-surface: rgba(0, 0, 0, 0.04);
+            --bg-surface-hover: rgba(0, 0, 0, 0.08);
+            --text-primary: #0f0f0f;
+            --text-secondary: #2d3748;
+            --text-muted: #4a5568;
+            --border-color: rgba(0, 0, 0, 0.15);
+            --border-hover: rgba(0, 0, 0, 0.25);
+            --modal-bg: rgba(255, 255, 255, 0.95);
+            --input-bg: rgba(0, 0, 0, 0.06);
+            --blob-opacity: 0.12;
+            --primary: #a38654;
+            --primary-rgb: 163, 134, 84;
+            --primary-dark: #8a7046;
+        }
+        
+        /* Light theme specific overrides */
+        [data-theme="light"] .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        [data-theme="light"] .glass-card-hover:hover {
+            background: rgba(255, 255, 255, 0.85);
+        }
+        
+        [data-theme="light"] input,
+        [data-theme="light"] textarea {
+            background: rgba(255, 255, 255, 0.8) !important;
+            border-color: rgba(0, 0, 0, 0.15) !important;
+            color: #0f0f0f !important;
+        }
+        
+        [data-theme="light"] input::placeholder,
+        [data-theme="light"] textarea::placeholder {
+            color: #6b7280 !important;
+        }
+        
+        [data-theme="light"] .text-white {
+            color: #0f0f0f !important;
+        }
+        
+        [data-theme="light"] .text-gray-200,
+        [data-theme="light"] .text-gray-300 {
+            color: #1f2937 !important;
+        }
+        
+        [data-theme="light"] .text-gray-400 {
+            color: #374151 !important;
+        }
+        
+        [data-theme="light"] .text-gray-500 {
+            color: #4b5563 !important;
+        }
+        
+        [data-theme="light"] .text-gray-600 {
+            color: #6b7280 !important;
+        }
+        
+        [data-theme="light"] .bg-white\/5,
+        [data-theme="light"] .bg-white\/10 {
+            background: rgba(0, 0, 0, 0.05) !important;
+        }
+        
+        [data-theme="light"] .border-white\/10 {
+            border-color: rgba(0, 0, 0, 0.12) !important;
+        }
+        
+        [data-theme="light"] .hover\:bg-white\/20:hover {
+            background: rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        [data-theme="light"] .drop-zone {
+            background: rgba(255, 255, 255, 0.6);
+        }
+        
+        [data-theme="light"] .spinner {
+            border-color: rgba(0, 0, 0, 0.1);
+            border-top-color: var(--primary);
+        }
+        
+        [data-theme="light"] .skeleton {
+            background: rgba(0, 0, 0, 0.08);
+        }
+        
+        [data-theme="light"] footer {
+            border-color: rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        [data-theme="light"] .pulse-glow {
+            box-shadow: 0 4px 20px rgba(163, 134, 84, 0.3), 0 0 40px rgba(163, 134, 84, 0.15);
+        }
+        
+        [data-theme="light"] .pulse-glow:hover {
+            box-shadow: 0 6px 30px rgba(163, 134, 84, 0.4), 0 0 50px rgba(163, 134, 84, 0.2);
+        }
+        
+        [data-theme="light"] .morph-blob {
+            background: rgba(163, 134, 84, 0.15) !important;
+        }
+        
+        [data-theme="light"] .grid-lines {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+        }
+        
+        /* Solid background using CSS variable */
+        .gradient-bg {
+            background: var(--bg-main);
+            transition: background 0.3s ease;
+        }
+        
+        /* Card styling - uses theme variables */
         .glass-card {
-            background: rgba(255, 255, 255, 0.06);
+            background: var(--bg-surface);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             transform: translateZ(0);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         
         .glass-card-hover {
@@ -44,31 +180,22 @@
         }
         
         .glass-card-hover:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: var(--bg-surface-hover);
+            border-color: var(--border-hover);
         }
         
-        /* Simplified holographic effect - static gradient */
+        /* Logo box - warm beige */
         .holographic {
-            background: linear-gradient(135deg, 
-                rgba(139, 92, 246, 0.4), 
-                rgba(59, 130, 246, 0.4), 
-                rgba(236, 72, 153, 0.3)
-            );
+            background: var(--primary);
         }
         
-        /* Simplified glow - no animation */
+        /* Button glow - warm beige */
         .pulse-glow {
-            box-shadow: 0 0 25px rgba(139, 92, 246, 0.6), 0 0 50px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.4), 0 0 50px rgba(var(--primary-rgb), 0.15);
         }
         
         .pulse-glow:hover {
-            box-shadow: 0 0 35px rgba(139, 92, 246, 0.8), 0 0 70px rgba(59, 130, 246, 0.4);
-        }
-        
-        /* Simplified neon text */
-        .neon-text {
-            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 35px rgba(var(--primary-rgb), 0.6), 0 0 70px rgba(var(--primary-rgb), 0.25);
         }
         
         /* Scroll indicator - simplified */
@@ -81,39 +208,41 @@
             50% { transform: translateY(-8px); }
         }
         
-        /* Static grid lines - no animation */
+        /* Static grid lines - warm beige */
         .grid-lines {
             background-image: 
-                linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(var(--primary-rgb), 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(var(--primary-rgb), 0.03) 1px, transparent 1px);
             background-size: 60px 60px;
         }
         
-        /* Custom scrollbar */
+        /* Custom scrollbar - warm beige */
         ::-webkit-scrollbar {
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(var(--primary-rgb), 0.05);
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(139, 92, 246, 0.5);
+            background: rgba(var(--primary-rgb), 0.5);
             border-radius: 3px;
         }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
         
-        /* Skeleton loading - optimized */
+        /* Skeleton loading */
         .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 100%);
-            background-size: 200% 100%;
+            background: rgba(var(--primary-rgb), 0.08);
             animation: skeleton 1.2s ease-in-out infinite;
         }
         
         @keyframes skeleton {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
         
-        /* Static decorative blob - no animation */
+        /* Static decorative blob */
         .morph-blob {
             border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
         }
@@ -128,10 +257,10 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
         
-        /* Spinner */
+        /* Spinner - warm beige */
         .spinner {
             border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #8B5CF6;
+            border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -140,9 +269,9 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Progress bar - simplified */
+        /* Progress bar - warm beige */
         .progress-bar {
-            background: linear-gradient(90deg, #8B5CF6, #3B82F6, #06B6D4);
+            background: var(--primary);
         }
         
         /* Textarea auto-grow */
@@ -158,8 +287,8 @@
         }
         
         .drop-zone.drag-over {
-            border-color: #8B5CF6;
-            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--primary) !important;
+            background: rgba(var(--primary-rgb), 0.1) !important;
         }
         
         /* Toast animations - faster */
@@ -172,16 +301,73 @@
             to { transform: translateX(0); opacity: 1; }
         }
         
-        /* Modal backdrop - reduced blur */
+        /* Modal backdrop */
         .modal-backdrop {
-            background: rgba(0, 0, 0, 0.8);
+            background: var(--modal-bg);
             backdrop-filter: blur(4px);
+            transition: background 0.3s ease;
         }
         
-        /* Range slider styling */
+        /* Theme toggle button */
+        .theme-toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--primary);
+        }
+        
+        .theme-toggle-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle-thumb svg {
+            width: 12px;
+            height: 12px;
+            color: #0a0a0a;
+        }
+        
+        [data-theme="light"] .theme-toggle-thumb {
+            transform: translateX(20px);
+        }
+        
+        /* Text colors using variables */
+        .text-theme-primary {
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        
+        .text-theme-secondary {
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        
+        .text-theme-muted {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+        
+        /* Range slider styling - warm beige */
         input[type="range"] {
             -webkit-appearance: none;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(var(--primary-rgb), 0.2);
             border-radius: 10px;
             height: 6px;
         }
@@ -190,7 +376,7 @@
             -webkit-appearance: none;
             width: 18px;
             height: 18px;
-            background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            background: var(--primary);
             border-radius: 50%;
             cursor: pointer;
         }
@@ -210,13 +396,17 @@
         }
         
         #appHeader .header-shell {
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
             transition: background 0.15s ease, border-color 0.15s ease;
         }
 
         #appHeader.scrolled .header-shell {
-            background: rgba(15, 23, 42, 0.85);
-            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(10, 10, 10, 0.95);
+            border-color: rgba(var(--primary-rgb), 0.2);
+        }
+        
+        [data-theme="light"] #appHeader.scrolled .header-shell {
+            background: rgba(248, 245, 241, 0.95);
         }
 
         .header-link {
@@ -225,7 +415,7 @@
             justify-content: center;
             padding: 0.5rem 0.75rem;
             border-radius: 0.75rem;
-            color: rgba(209, 213, 219, 1);
+            color: var(--text-secondary);
             border: 1px solid transparent;
             background: transparent;
             transition: all 0.15s ease;
@@ -234,14 +424,30 @@
         }
 
         .header-link:hover {
-            color: rgba(255, 255, 255, 1);
-            background: rgba(255, 255, 255, 0.08);
+            color: var(--primary);
+            background: rgba(var(--primary-rgb), 0.1);
         }
 
         .header-link.active {
-            color: rgba(255, 255, 255, 1);
-            background: rgba(139, 92, 246, 0.2);
-            border-color: rgba(139, 92, 246, 0.4);
+            color: #0a0a0a;
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        [data-theme="light"] .header-link.active {
+            color: #ffffff;
+        }
+        
+        [data-theme="light"] h1[style*="ECD5BC"] {
+            color: #7a6340 !important;
+        }
+        
+        [data-theme="light"] .holographic {
+            background: #a38654;
+        }
+        
+        [data-theme="light"] [style*="color: #ECD5BC"] {
+            color: #7a6340 !important;
         }
 
         /* Mobile menu */
@@ -267,15 +473,36 @@
         img {
             content-visibility: auto;
         }
+        
+        /* Primary button - warm beige with dark text */
+        .btn-primary {
+            background: var(--primary);
+            color: #0a0a0a;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Primary text color */
+        .text-primary {
+            color: var(--primary);
+        }
+        
+        /* Focus states with warm beige */
+        input:focus, textarea:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+        }
     </style>
 </head>
-<body class="gradient-bg min-h-screen text-white overflow-x-hidden">
+<body class="gradient-bg min-h-screen text-theme-primary overflow-x-hidden" data-theme="dark">
     <!-- Grid Lines Overlay -->
     <div class="fixed inset-0 grid-lines pointer-events-none z-0 opacity-20"></div>
     
-    <!-- Static Decorative Blobs - reduced blur for performance -->
-    <div class="fixed top-20 left-10 w-80 h-80 bg-purple-600/15 morph-blob blur-2xl pointer-events-none z-0"></div>
-    <div class="fixed bottom-20 right-10 w-72 h-72 bg-blue-600/15 morph-blob blur-2xl pointer-events-none z-0"></div>
+    <!-- Static Decorative Blobs - warm beige -->
+    <div class="fixed top-20 left-10 w-80 h-80 morph-blob blur-2xl pointer-events-none z-0" style="background: rgba(236, 213, 188, 0.08);"></div>
+    <div class="fixed bottom-20 right-10 w-72 h-72 morph-blob blur-2xl pointer-events-none z-0" style="background: rgba(236, 213, 188, 0.06);"></div>
 
     <!-- Main Content -->
     <div class="relative z-10">
@@ -285,14 +512,13 @@
                 <div class="header-shell glass-card rounded-2xl px-4 md:px-6 py-3 flex items-center justify-between gap-4">
                     <a href="#hero" onclick="scrollToSection('hero'); return false;" class="group flex items-center gap-3">
                         <div class="relative w-10 h-10 rounded-xl holographic flex items-center justify-center shadow-lg">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
                         <div class="leading-tight">
                             <div class="flex items-center gap-2">
-                                <span class="text-sm md:text-base font-extrabold tracking-tight bg-gradient-to-r from-purple-300 via-pink-300 to-cyan-300 bg-clip-text text-transparent">AI Image Generator</span>
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/10 border border-white/10 text-gray-200">BETA</span>
+                                <span class="text-sm md:text-base font-extrabold tracking-tight font-heading" style="color: #ECD5BC;">AI Image Generator</span>
                             </div>
                         </div>
                     </a>
@@ -306,8 +532,19 @@
                     </nav>
 
                     <div class="flex items-center gap-2">
+                        <!-- Theme Toggle -->
+                        <button onclick="toggleTheme()" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+                            <div class="theme-toggle-thumb">
+                                <svg id="themeIconMoon" class="hidden" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                                </svg>
+                                <svg id="themeIconSun" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
 
-                        <button onclick="scrollToGenerator()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 transition-all duration-300 font-semibold">
+                        <button onclick="scrollToGenerator()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold btn-primary" style="background: var(--primary); color: #0a0a0a;">
                             <span>Start</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -330,7 +567,7 @@
                         <a data-navlink href="#generator" onclick="scrollToSection('generator'); return false;" class="header-link w-full">Generator</a>
                         <a data-navlink href="#gallerySection" onclick="scrollToSection('gallerySection'); return false;" class="header-link w-full">Gallery</a>
                         <a data-navlink href="#historySection" onclick="scrollToSection('historySection'); return false;" class="header-link w-full">History</a>
-                        <button onclick="scrollToGenerator(); closeMobileMenu();" class="mt-1 w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 font-semibold">Start Creating</button>
+                        <button onclick="scrollToGenerator(); closeMobileMenu();" class="mt-1 w-full py-2.5 rounded-xl font-semibold btn-primary" style="background: #ECD5BC; color: #0a0a0a;">Start Creating</button>
                     </div>
                 </div>
             </div>
@@ -339,19 +576,19 @@
         <!-- Hero Section -->
         <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-4 pt-32 pb-20">
             <div class="text-center max-w-4xl mx-auto">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-tight font-heading" style="color: #ECD5BC;">
                     Create Stunning AI Images
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                <p class="text-xl md:text-2xl text-theme-secondary mb-8 max-w-2xl mx-auto leading-relaxed">
                     Unleash the power of artificial intelligence to transform your imagination into breathtaking visuals. Simply describe your vision, and watch magic unfold.
                 </p>
                 <div class="flex flex-wrap gap-4 justify-center mb-12">
-                    <span class="px-4 py-2 glass-card rounded-full text-sm text-gray-300">✨ Photorealistic</span>
-                    <span class="px-4 py-2 glass-card rounded-full text-sm text-gray-300">🎨 Artistic Styles</span>
-                    <span class="px-4 py-2 glass-card rounded-full text-sm text-gray-300">⚡ Fast Generation</span>
-                    <span class="px-4 py-2 glass-card rounded-full text-sm text-gray-300">📸 Reference Images</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm text-theme-secondary">✨ Photorealistic</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm text-theme-secondary">🎨 Artistic Styles</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm text-theme-secondary">⚡ Fast Generation</span>
+                    <span class="px-4 py-2 glass-card rounded-full text-sm text-theme-secondary">📸 Reference Images</span>
                 </div>
-                <button onclick="scrollToGenerator()" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-semibold text-lg hover:from-purple-500 hover:to-blue-500 transition-all duration-300 pulse-glow">
+                <button onclick="scrollToGenerator()" class="px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 pulse-glow btn-primary" style="background: #ECD5BC; color: #0a0a0a;">
                     Start Creating
                 </button>
             </div>
@@ -373,7 +610,7 @@
                     <div class="mb-8">
                         <label class="block text-lg font-semibold mb-3 text-gray-200">
                             <span class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #ECD5BC;">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
                                 </svg>
                                 Describe Your Vision
@@ -382,13 +619,13 @@
                         <div class="relative">
                             <textarea 
                                 id="promptInput"
-                                class="w-full auto-grow p-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none transition-all duration-300"
+                                class="w-full auto-grow p-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 focus:outline-none transition-all duration-300"
                                 placeholder="A majestic dragon soaring through a sunset sky, with golden scales reflecting the warm light, surrounded by floating islands covered in cherry blossoms, cinematic lighting, ultra detailed, 8k resolution..."
                                 oninput="autoGrow(this); updateCharCount()"
                             ></textarea>
                             <div class="flex justify-between items-center mt-2 text-sm">
                                 <span id="charCount" class="text-gray-500">0 characters</span>
-                                <button onclick="enhancePrompt()" class="flex items-center gap-1 text-purple-400 hover:text-purple-300 transition-colors">
+                                <button onclick="enhancePrompt()" class="flex items-center gap-1 transition-colors" style="color: #ECD5BC;">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                                     </svg>
@@ -402,7 +639,7 @@
                     <div class="mb-8">
                         <label class="block text-lg font-semibold mb-3 text-gray-200">
                             <span class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #ECD5BC;">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
                                 Reference Images <span class="text-sm font-normal text-gray-500">(Optional - Up to 8 images, max 30MB total)</span>
@@ -411,7 +648,10 @@
                         
                         <div 
                             id="dropZone"
-                            class="drop-zone border-2 border-dashed border-white/20 rounded-xl p-8 text-center cursor-pointer hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300"
+                            class="drop-zone border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300"
+                            style="border-color: rgba(236, 213, 188, 0.3);"
+                            onmouseover="this.style.borderColor='rgba(236, 213, 188, 0.6)'; this.style.background='rgba(236, 213, 188, 0.05)';"
+                            onmouseout="this.style.borderColor='rgba(236, 213, 188, 0.3)'; this.style.background='transparent';"
                             onclick="document.getElementById('fileInput').click()"
                             ondragover="handleDragOver(event)"
                             ondragleave="handleDragLeave(event)"
@@ -548,7 +788,8 @@
                     <button 
                         id="generateBtn"
                         onclick="generateImages()"
-                        class="w-full py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 rounded-xl font-bold text-lg hover:from-purple-500 hover:via-pink-500 hover:to-blue-500 transition-all duration-300 pulse-glow flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:animate-none"
+                        class="w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 pulse-glow flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:animate-none btn-primary"
+                        style="background: #ECD5BC; color: #0a0a0a;"
                     >
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -575,7 +816,7 @@
                 <!-- Generated Images Gallery -->
                 <div id="gallerySection" class="hidden">
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2 font-heading">
                             <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                             </svg>
@@ -595,7 +836,7 @@
                 <!-- History Section -->
                 <div id="historySection" class="mt-12 hidden">
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2 font-heading">
                             <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
@@ -631,7 +872,7 @@
     <div id="emailModal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4">
         <div class="glass-card rounded-2xl p-6 w-full max-w-md">
             <div class="flex items-center justify-between mb-6">
-                <h3 class="text-xl font-bold text-white">Send Image via Email</h3>
+                <h3 class="text-xl font-bold text-white font-heading">Send Image via Email</h3>
                 <button onclick="closeEmailModal()" class="text-gray-400 hover:text-white transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -711,7 +952,58 @@
             updateHistoryDisplay();
             setHeaderScrolled(window.scrollY > 10);
             updateActiveNavLink();
+            initTheme();
         });
+        
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            setTheme(savedTheme);
+        }
+        
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            
+            const sunIcon = document.getElementById('themeIconSun');
+            const moonIcon = document.getElementById('themeIconMoon');
+            
+            if (theme === 'light') {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            }
+            
+            // Update blobs opacity
+            document.querySelectorAll('.morph-blob').forEach(blob => {
+                blob.style.opacity = theme === 'light' ? '0.15' : '0.08';
+            });
+            
+            // Update hero heading color for theme
+            const heroHeading = document.querySelector('#hero h1');
+            if (heroHeading) {
+                heroHeading.style.color = theme === 'light' ? '#7a6340' : '#ECD5BC';
+            }
+            
+            // Update header logo text color
+            const logoText = document.querySelector('#appHeader .font-heading');
+            if (logoText) {
+                logoText.style.color = theme === 'light' ? '#7a6340' : '#ECD5BC';
+            }
+            
+            // Update accent icons
+            document.querySelectorAll('[style*="color: #ECD5BC"]').forEach(el => {
+                el.style.color = theme === 'light' ? '#7a6340' : '#ECD5BC';
+            });
+        }
 
         // Throttle utility for scroll performance
         function throttle(func, limit) {
